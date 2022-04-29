@@ -14,7 +14,6 @@ class SearchBar {
     get categoryDropdown() {
         return $(`${this.parentLocator} .ipc-button`);
     }
-
     /**
      * Method that opens the category menu and selects 1
      */
