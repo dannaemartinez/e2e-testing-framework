@@ -21,11 +21,14 @@ exports.config = {
     // will be called from there.
     //
     specs: [
-        './features/**/movies-details.feature'
+      './features/**/*.feature',
+      //'./features/**/movies-details.feature'
+      //'./features/**/movies-ranking.feature'
+      //'./features/**/movies-genre.feature'
     ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+      // 'path/to/excluded/files'
     ],
     //
     // ============
@@ -49,20 +52,27 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
-    capabilities: [{
-    
+    capabilities: [
+      {
         // maxInstances can get overwritten per capability. So if you have an in-house Selenium
         // grid with only 5 firefox instances available you can make sure that not more than
         // 5 instances get started at a time.
         maxInstances: 5,
         //
         browserName: 'chrome',
-        acceptInsecureCerts: true
+        'goog:chromeOptions': {
+          args: [],
+          prefs: {
+            'intl.accept_languages': 'en,EN',
+          },
+        },
+        acceptInsecureCerts: true,
         // If outputDir is provided WebdriverIO can capture driver session logs
         // it is possible to configure which logTypes to include/exclude.
         // excludeDriverLogs: ['*'], // pass '*' to exclude all driver session logs
         // excludeDriverLogs: ['bugreport', 'server'],
-    }],
+      },
+    ],
     //
     // ===================
     // Test Configurations
@@ -70,7 +80,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'silent',
     //
     // Set specific log levels per logger
     // loggers:
@@ -111,7 +121,7 @@ exports.config = {
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
     services: ['chromedriver'],
-    
+  
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks
@@ -133,35 +143,34 @@ exports.config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: ['spec'],
-
-
+  
     //
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
-        // <string[]> (file/dir) require files before executing features
-        require: ['./features/step-definitions/steps.js'],
-        // <boolean> show full backtrace for errors
-        backtrace: false,
-        // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-        requireModule: [],
-        // <boolean> invoke formatters without executing steps
-        dryRun: false,
-        // <boolean> abort the run on first failure
-        failFast: false,
-        // <boolean> hide step definition snippets for pending steps
-        snippets: true,
-        // <boolean> hide source uris
-        source: true,
-        // <boolean> fail if there are any undefined or pending steps
-        strict: false,
-        // <string> (expression) only execute the features or scenarios with tags matching the expression
-        tagExpression: '',
-        // <number> timeout for step definitions
-        timeout: 60000,
-        // <boolean> Enable this config to treat undefined definitions as warnings.
-        ignoreUndefinedDefinitions: false
+      // <string[]> (file/dir) require files before executing features
+      require: ['./features/step-definitions/steps.js'],
+      // <boolean> show full backtrace for errors
+      backtrace: false,
+      // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
+      requireModule: [],
+      // <boolean> invoke formatters without executing steps
+      dryRun: false,
+      // <boolean> abort the run on first failure
+      failFast: false,
+      // <boolean> hide step definition snippets for pending steps
+      snippets: true,
+      // <boolean> hide source uris
+      source: true,
+      // <boolean> fail if there are any undefined or pending steps
+      strict: false,
+      // <string> (expression) only execute the features or scenarios with tags matching the expression
+      tagExpression: '',
+      // <number> timeout for step definitions
+      timeout: 60000,
+      // <boolean> Enable this config to treat undefined definitions as warnings.
+      ignoreUndefinedDefinitions: false,
     },
-    
+  
     //
     // =====
     // Hooks
@@ -282,7 +291,7 @@ exports.config = {
      */
     // afterFeature: function (uri, feature) {
     // },
-    
+  
     /**
      * Runs after a WebdriverIO command gets executed
      * @param {String} commandName hook command name
@@ -320,10 +329,10 @@ exports.config = {
     // onComplete: function(exitCode, config, capabilities, results) {
     // },
     /**
-    * Gets executed when a refresh happens.
-    * @param {String} oldSessionId session ID of the old session
-    * @param {String} newSessionId session ID of the new session
-    */
+     * Gets executed when a refresh happens.
+     * @param {String} oldSessionId session ID of the old session
+     * @param {String} newSessionId session ID of the new session
+     */
     // onReload: function(oldSessionId, newSessionId) {
     // }
-}
+  }
