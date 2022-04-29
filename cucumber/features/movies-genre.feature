@@ -3,11 +3,8 @@ Feature: Movie Genre
         Given I am on the home page
         When on the navbar I search "The Batman"
         Then on the list page click "The Batman 2022"
-        And verify if we are in thebatman page 
-        And validate if movie has genre <name> and number <number>
-
-Examples:
-| name | number |
-| Action | 1 | 
-| Crime | 2 |
-| Drama | 3 |
+        And verify if we are in the batman page 
+        And validate if movie has Acción
+        And validate if movie has Crimen
+        And validate if movie has Drama
+        

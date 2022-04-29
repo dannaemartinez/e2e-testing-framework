@@ -1,11 +1,9 @@
-const { Given, When, Then } = require('@wdio/cucumber-framework')
-const HomePage = require('../page-objects/home.page')
-const BatmanPage = require('../page-objects/batman.page')
-const NavBar = require('../page-objects/global/navbar')
-const MovieList = require('../page-objects/movie.list.page')
-const { toHome } = require('../page-objects/movie.list.page')
-const assert = require('assert')
-const AssertionError = require('assert').AssertionError
+const { Given, When, Then } = require("@wdio/cucumber-framework");
+
+const NavBar = require("../page-objects/global/navbar");
+const HomePage = require("../page-objects/home.page");
+const movieResultPage = require("../page-objects/movie-result.page");
+const batmanPage = require("../page-objects/batman.page");
 
 // const pages = {
 //     home: HomePage
@@ -43,56 +41,48 @@ const AssertionError = require('assert').AssertionError
 // SCENARIO 1
 const pages = {
   home: HomePage,
-  thebatman: BatmanPage,
-}
+  batman: batmanPage,
+  "the batman": batmanPage,
+};
 
-Given(/^I am on the (\w+) page$/, async (page) => await pages[page].open())
+Given(/^I am on the (\w+) page$/, async (page) => await pages[page].open());
 
-When(/^on the navbar I search "(The Batman)"$/, (movie) => {
-  MovieList.rowHyperlink(movie)
-})
+When(/^on the navbar I search "(.+)"$/, async (movie) => {
+  await HomePage.search(movie);
+});
 
-When(/^on the list page click "(The Batman) (2022)"$/, (movie, year) => {
-  MovieList.movieLink(movie, year).click()
-})
+// When(/^on the navbar I search "(.+)"$/, (movie)=> {
+//   MovieList.rowHyperlink(movie)
+// });
 
-Then(/^verify if we are in (\w+) page$/, async (page) => {
-  await pages[page].open()
-})
+When(/^on the list page click "(.+) (\d+)"$/, async (movie, year) => {
+  await movieResultPage.clickOnMovieResult(movie, year);
+});
 
-Then(/^verify if the director is "(Matt Reeves)"$/, (name) => {
-  MovieList.directorName(name)
-})
+// When(/^on the list page click "(The Batman) (2022)"$/, (movie, year) => {
+//    MovieList.movieLink(movie, year).click()
+//  });
 
-Then(/^verify if the actor "(Robert Pattinson)"$/, (name) => {
-  MovieList.actorName(name)
-})
+// Then(  /^verify if we are in (\w+) page$/, async (pages) => {await batmanPages[pages].open()})
+Then(/^verify if we are in (.+) page$/, async (page) => {
+  await pages[page].verifyPage();
+});
 
-Then(/^I return to the home page/, async () => {
-  await MovieList.toHome()
-})
+Then(/^verify if the director is "(.+)"$/, async (directorName) => {
+  await batmanPage.validateDirectorName(directorName);
+});
+
+Then(/^verify if the actor "(.+)"$/, async (actorName) => {
+  await batmanPage.validateActorName(actorName)
+});
 
 // SCENARIO 2
 
-Then(/^validate the ranking in the IMDB is "(8.1)"$/, async (name) => {
-  try {
-    await expect(MovieList.starRank()).toBeExisting()
-    await expect(MovieList.starRank()).toHaveTextContaining(name)
-  } catch (e) {
-    throw new assert.AssertionError(e)
-  }
-})
+Then(/^validate the ranking in the IMDB is "(.+)"$/, async (rank) => {
+  await batmanPage.validateRank(rank)
+});
 
 //SCENARIO 3
-Then(
-  /^validate if movie has genre (.*) and number (.*)$/,
-  async (name, number) => {
-    try {
-      const element = await MovieList.nameGenre(number)
-      await expect(element).toBeExisting()
-      await expect(element).toHaveTextContaining(name)
-    } catch (e) {
-      throw new assert.AssertionError(e)
-    }
-  }
-)
+Then(/^validate if movie has (.+)$/, (genre) => {
+  batmanPage.validateGenre(genre);
+});
