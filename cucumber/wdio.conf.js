@@ -21,9 +21,9 @@ exports.config = {
   // will be called from there.
   //
   specs: [
-    // './features/**/*.feature',
-    //'./features/**/movies-details.feature'
-    './features/**/movies-ranking.feature',
+    './features/**/*.feature',
+    // './features/**/movies-details.feature'
+    // './features/**/movies-ranking.feature',
     // './features/**/movies-genre.feature',
   ],
   // Patterns to exclude.
